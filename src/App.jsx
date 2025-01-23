@@ -8,6 +8,11 @@ function App() {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.location);
 
+  React.useEffect(() => { // it runs once when the component mounts so that user's centered in the beginning
+    dispatch(requestUserLocation());
+    dispatch(incrementRecenterTrigger());
+  }, [dispatch]);
+
   const handleLocateMe = () => {
     // 1. Request user location (asynchronous epic)
     dispatch(requestUserLocation());
