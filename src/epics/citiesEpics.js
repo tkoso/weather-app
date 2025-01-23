@@ -36,13 +36,31 @@ export const citiesEpic = (action$) =>
           return response.json();
         }),
         map((jsonData) => {
-          // Overpass returns an object with an "elements" array
-          const elements = jsonData.elements || [];
-          // For now, let's console.log them all
-          console.log('Cities in current bounding box:', elements);
-
-          return setCitiesInBBoxSuccess(elements);
-        }),
+            const elements = jsonData.elements || [];
+  
+            const withPopulation = elements.map((el) => {
+              let pop = 0;
+              if (el.tags && el.tags.population) {
+                const parsed = parseInt(el.tags.population, 10);
+                if (!isNaN(parsed)) {
+                  pop = parsed;
+                }
+              }
+              return {
+                ...el,
+                pop,
+              };
+            });
+  
+            withPopulation.sort((a, b) => b.pop - a.pop);
+  
+            // Take the top 20
+            const top20 = withPopulation.slice(0, 20);
+  
+            console.log('Top 20 biggest cities by population in bbox:', top20);
+  
+            return setCitiesInBBoxSuccess(top20);
+          }),
         catchError((err) => {
           console.error('Error fetching cities:', err);
           return of(setCitiesInBBoxError(err.toString()));
