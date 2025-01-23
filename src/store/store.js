@@ -3,12 +3,14 @@ import { createEpicMiddleware } from 'redux-observable';
 import rootEpic from './rootEpic';
 
 import locationReducer from '../slices/locationSlice';
+import citiesReducer from '../slices/citiesSlice';
 
 const epicMiddleware = createEpicMiddleware();
 
 const store = configureStore({
   reducer: {
     location: locationReducer,
+    cities: citiesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { useSelector, useDispatch } from 'react-redux';
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { requestCitiesInBBox } from '../slices/citiesSlice';
 
 // This sub-component re-centers the map whenever lat/lng OR recenterTrigger changes
 function RecenterMap({ lat, lng, recenterTrigger }) {
@@ -10,6 +11,23 @@ function RecenterMap({ lat, lng, recenterTrigger }) {
   React.useEffect(() => {
     map.setView([lat, lng]);
   }, [lat, lng, recenterTrigger, map]);
+
+  return null;
+}
+
+function MapEventsHandler() {
+  const dispatch = useDispatch();
+  const map = useMapEvents({
+    moveend: () => {
+      const bounds = map.getBounds();
+      const south = bounds.getSouth();
+      const west = bounds.getWest();
+      const north = bounds.getNorth();
+      const east = bounds.getEast();
+      const bboxStr = `${south},${west},${north},${east}`;
+      dispatch(requestCitiesInBBox(bboxStr));
+    },
+  });
 
   return null;
 }
@@ -29,6 +47,8 @@ export default function MapView() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RecenterMap lat={latitude} lng={longitude} recenterTrigger={recenterTrigger} />
+
+      <MapEventsHandler />
     </MapContainer>
   );
 }
