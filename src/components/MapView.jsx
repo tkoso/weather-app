@@ -33,23 +33,42 @@ function MapEventsHandler() {
 }
 
 function CityMarkers() {
-  const {cities} = useSelector((state) => state.cities);
+  const { cities } = useSelector((state) => state.cities);
+  const { weatherById } = useSelector((state) => state.weather);
 
   return (
     <>
       {cities.map((city) => {
-        const cityName = city.tags && city.tags.name ? city.tags.name : 'Unnamed City';
+        const cityName = city.tags?.name || 'Unnamed City';
+        const cityId = city.id;
+        
+        // read weather data if we have it
+        const wData = weatherById[cityId];
+        const tempText = wData?.temp_c !== undefined
+          ? `${wData.temp_c}°C`
+          : '...';
+        const condText = wData?.condition || 'no data';
+
         return (
-          <Marker
-            key={city.id}
-            position={[city.lat, city.lon]}
-          >
-            <Popup>{cityName}</Popup>
+          <Marker key={cityId} position={[city.lat, city.lon]}>
+            <Popup>
+              <div>
+                <strong>{cityName}</strong>
+                <br />
+                Temp: {tempText}
+                <br />
+                Condition: {condText}
+                {/* displaying the icon: */}
+                {wData?.icon && (
+                  <img src={wData.icon} alt="weather icon" />
+                )}
+              </div>
+            </Popup>
           </Marker>
         );
       })}
     </>
-  )
+  );
 }
 
 export default function MapView() {
