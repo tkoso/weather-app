@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, Tooltip, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { requestCitiesInBBox } from '../slices/citiesSlice';
 
@@ -51,19 +51,15 @@ function CityMarkers() {
 
         return (
           <Marker key={cityId} position={[city.lat, city.lon]}>
-            <Popup>
-              <div>
+            <Tooltip permanent direction="top" offset={[0, -20]}>
+              <div style={{ textAlign: 'center' }}>
                 <strong>{cityName}</strong>
                 <br />
                 Temp: {tempText}
                 <br />
-                Condition: {condText}
-                {/* displaying the icon: */}
-                {wData?.icon && (
-                  <img src={wData.icon} alt="weather icon" />
-                )}
+                {condText}
               </div>
-            </Popup>
+            </Tooltip>
           </Marker>
         );
       })}
