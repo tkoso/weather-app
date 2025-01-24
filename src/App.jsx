@@ -22,10 +22,9 @@ function App() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1>React Geolocation Weather App (Recenter Fix)</h1>
 
       <MyStyledButton onClick={handleLocateMe}>
-        Center on my location
+        Locate Me!
       </MyStyledButton>
 
       {loading && <p>Loading location...</p>}

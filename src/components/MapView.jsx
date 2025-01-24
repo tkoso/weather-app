@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { requestCitiesInBBox } from '../slices/citiesSlice';
 
@@ -32,6 +32,26 @@ function MapEventsHandler() {
   return null;
 }
 
+function CityMarkers() {
+  const {cities} = useSelector((state) => state.cities);
+
+  return (
+    <>
+      {cities.map((city) => {
+        const cityName = city.tags && city.tags.name ? city.tags.name : 'Unnamed City';
+        return (
+          <Marker
+            key={city.id}
+            position={[city.lat, city.lon]}
+          >
+            <Popup>{cityName}</Popup>
+          </Marker>
+        );
+      })}
+    </>
+  )
+}
+
 export default function MapView() {
   const { latitude, longitude, zoom, recenterTrigger } = useSelector((state) => state.location);
 
@@ -49,6 +69,8 @@ export default function MapView() {
       <RecenterMap lat={latitude} lng={longitude} recenterTrigger={recenterTrigger} />
 
       <MapEventsHandler />
+
+      <CityMarkers />
     </MapContainer>
   );
 }
