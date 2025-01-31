@@ -1,5 +1,7 @@
 # weather-app
 
+Path to the styled component from the task statement: `src/components/MyStyledButton.jsx`
+
 This project displays a React Leaflet map and dynamically shows biggest cities visible to the user (via OverpassAPI) on the map and fetches weather data for each city using WeatherAPI.
 
 ## Prerequisites
