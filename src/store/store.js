@@ -5,6 +5,7 @@ import rootEpic from './rootEpic';
 import locationReducer from '../slices/locationSlice';
 import citiesReducer from '../slices/citiesSlice';
 import weatherReducer from '../slices/weatherSlice';
+import filtersReducer from '../slices/filtersSlice';
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -12,7 +13,8 @@ const store = configureStore({
   reducer: {
     location: locationReducer,
     cities: citiesReducer,
-    weather: weatherReducer
+    weather: weatherReducer,
+    filters: filtersReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

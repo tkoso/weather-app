@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  cities: [],       // we'll store the raw array of returned city data
+  allCities: [], // we'll store the raw array of returned city data
+  filteredCities: [],
   loading: false,
   error: null,
 };
@@ -16,12 +17,17 @@ const citiesSlice = createSlice({
     },
     setCitiesInBBoxSuccess: (state, action) => {
       state.loading = false;
-      state.cities = action.payload;  // store the array of cities
+      const newCities = action.payload;
+      state.allCities = newCities; // store the array of cities
+      state.filteredCities = newCities; // default to all (unfiltered) initially
     },
     setCitiesInBBoxError: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
+    applyCityFilters: (state, action) => {
+      state.filteredCities = action.payload;
+    }
   },
 });
 
@@ -29,6 +35,7 @@ export const {
   requestCitiesInBBox,
   setCitiesInBBoxSuccess,
   setCitiesInBBoxError,
+  applyCityFilters,
 } = citiesSlice.actions;
 
 export default citiesSlice.reducer;

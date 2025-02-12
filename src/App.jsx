@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { requestUserLocation, incrementRecenterTrigger } from './slices/locationSlice';
 import MapView from './components/MapView/MapView';
 import MyStyledButton from './components/MyStyledButton';
+import FiltersPanel from './components/FiltersPanel';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function App() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-
+      <FiltersPanel />
       <MyStyledButton onClick={handleLocateMe}>
         Locate Me!
       </MyStyledButton>

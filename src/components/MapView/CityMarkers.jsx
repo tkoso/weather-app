@@ -13,12 +13,12 @@ function classifyWeather(temp_c, conditionText) {
 }
 
 export default function CityMarkers() {
-  const { cities } = useSelector((state) => state.cities);
+  const { filteredCities } = useSelector((state) => state.cities);
   const { weatherById } = useSelector((state) => state.weather);
 
   return (
     <>
-      {cities.map((city) => {
+      {filteredCities.map((city) => {
         const cityName = city.tags?.name || 'Unnamed City';
         const cityId = city.id;
         
