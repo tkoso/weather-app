@@ -9,6 +9,7 @@ import CityMarkers from './CityMarkers';
 
 export default function MapView() {
   const { latitude, longitude, zoom, recenterTrigger } = useSelector((state) => state.location);
+  const theme = useSelector(state => state.theme.mode);
 
   return (
     <MapContainer
@@ -19,7 +20,11 @@ export default function MapView() {
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={
+          theme === 'dark' 
+            ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+            : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        }
       />
 
       {/* re-center if lat/lng or recenterTrigger changes */}

@@ -12,6 +12,9 @@ const FiltersContainer = styled.div`
   border-radius: 8px;
   margin: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: ${({ theme }) => theme.background};
+  border-color: ${({ theme }) => theme.border};
+  color: ${({ theme }) => theme.text};
 `;
 
 export default function FiltersPanel() {
