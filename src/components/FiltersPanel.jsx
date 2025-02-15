@@ -4,6 +4,7 @@ import { setSearchTerm, setPopulationRange } from '../slices/filtersSlice';
 import styled from 'styled-components';
 import 'rc-slider/assets/index.css';
 import Slider from 'rc-slider';
+import { useMap } from 'react-leaflet';
 
 const FiltersContainer = styled.div`
   padding: 1rem;
@@ -18,6 +19,7 @@ const FiltersContainer = styled.div`
 
 export default function FiltersPanel() {
   const dispatch = useDispatch();
+  const map = useMap();
   const { 
     searchTerm = '', 
     minPopulation = 0, 
@@ -58,6 +60,17 @@ export default function FiltersPanel() {
             value={[minPopulation, maxPopulation]}
             onChange={onRangeChange}
             step={1000}
+            /* TODO: think about swapping deprecated attributes */
+            onBeforeChange={() => {
+              if (map && map.dragging) {
+                map.dragging.disable();
+              }
+            }}
+            onAfterChange={() => {
+              if (map && map.dragging) {
+                map.dragging.enable();
+              }
+            }}
           />
           <div className="slider-labels">
             <span>Min: {minPopulation.toLocaleString()}</span>

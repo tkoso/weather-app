@@ -7,8 +7,8 @@ const spin = keyframes`
 
 const Spinner = styled.div`
   position: fixed;
-  top: 80px;
-  right: 20px;
+  top: 20px;
+  left: 60px;
   border: 6px solid #f3f3f3;
   border-radius: 50%;
   border-top: 8px solid #007bff;
