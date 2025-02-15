@@ -5,12 +5,16 @@ const initialState = {
   filteredCities: [],
   loading: false,
   error: null,
+  bbox: null,
 };
 
 const citiesSlice = createSlice({
   name: 'cities',
   initialState,
   reducers: {
+    setBoundingBox: (state, action) => { // useful to store it in state because it's used by hourlyUpdateEpics
+      state.bbox = action.payload;
+    },
     requestCitiesInBBox: (state) => {
       state.loading = true;
       state.error = null;
@@ -32,6 +36,7 @@ const citiesSlice = createSlice({
 });
 
 export const {
+  setBoundingBox,
   requestCitiesInBBox,
   setCitiesInBBoxSuccess,
   setCitiesInBBoxError,

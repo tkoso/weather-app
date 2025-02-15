@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
-import { requestCitiesInBBox } from '../../slices/citiesSlice';
+import { requestCitiesInBBox, setBoundingBox } from '../../slices/citiesSlice';
 
 export default function MapEventsHandler() {
   const dispatch = useDispatch();
@@ -16,6 +16,8 @@ export default function MapEventsHandler() {
       const east = bounds.getEast();
 
       const bboxStr = `${south},${west},${north},${east}`;
+
+      dispatch(setBoundingBox(bboxStr));
       dispatch(requestCitiesInBBox(bboxStr));
     },
   });

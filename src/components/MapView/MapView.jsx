@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import RecenterMap from './RecenterMap';
@@ -12,7 +12,7 @@ import { toggleTheme } from '../../slices/themeSlice';
 import ThemeToggleButton from '../ThemeToggleButton';
 import { requestUserLocation, incrementRecenterTrigger } from '../../slices/locationSlice';
 import { useDispatch } from 'react-redux';
-
+import { setBoundingBox, requestCitiesInBBox } from '../../slices/citiesSlice';
 
 
 
@@ -53,6 +53,31 @@ export default function MapView() {
     // 2. Increment the recenter trigger so we always recenter even if lat/lng are the same
     dispatch(incrementRecenterTrigger());
   };
+
+  useEffect(() => {
+    // calculate initial bounding box to trigger setting bounding box (so that the user does not even
+    // to move the map at all, just leave it as is and wait for the hourly updates)
+    // it's just a rough estimate of the bounding box but it works (other ways I tried did not)
+    const mapWidth = window.innerWidth;
+    const mapHeight = window.innerHeight;
+
+    const degreesPerPixelX = 360 / (256 * Math.pow(2, zoom));
+    const degreesPerPixelY = 360 / (256 * Math.pow(2, zoom));
+
+    const halfMapSpanLng = (mapWidth / 2) * degreesPerPixelX;
+    const halfMapSpanLat = (mapHeight / 2) * degreesPerPixelY;
+
+    const south = latitude - halfMapSpanLat;
+    const north = latitude + halfMapSpanLat;
+    const west = longitude - halfMapSpanLng;
+    const east = longitude + halfMapSpanLng;
+
+    const bboxStr = `${south},${west},${north},${east}`;
+    console.log(bboxStr);
+    dispatch(setBoundingBox(bboxStr));
+    dispatch(requestCitiesInBBox(bboxStr));
+  }, [dispatch, latitude, longitude, zoom]);
+
 
   return (
     <MapContainerStyled

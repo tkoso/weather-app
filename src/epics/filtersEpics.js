@@ -8,7 +8,7 @@ export const filtersEpic = (action$) =>
     // listen for either name or population changes
     ofType(setSearchTerm.type, setPopulationRange.type),
     // wait 200ms after the last change
-    debounceTime(200),
+    debounceTime(200), // (value of debounce after filtering was chosen in the task statement)
     // then dispatch "applyFilters"
     map(() => applyFilters())
   );

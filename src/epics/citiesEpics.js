@@ -18,12 +18,11 @@ const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 export const citiesEpic = (action$, state$) =>
   action$.pipe(
     ofType(requestCitiesInBBox.type, applyFilters.type),
-    debounceTime(200),
+    debounceTime(2000), // debounce the api queries so that we don't overload it and only the latest is considered
     withLatestFrom(state$),
     switchMap(([action, state]) => {
       if (action.type === requestCitiesInBBox.type) {
         const bboxStr = action.payload; // "south,west,north,east" as string
-
         const query = `
           [out:json][timeout:25];
           (
@@ -46,7 +45,7 @@ export const citiesEpic = (action$, state$) =>
           }),
           switchMap((jsonData) => {
               const elements = jsonData.elements || [];
-    
+
               const withPopulation = elements.map((el) => {
                 let pop = 0;
                 if (el.tags && el.tags.population) {
@@ -69,8 +68,6 @@ export const citiesEpic = (action$, state$) =>
               const populations = top20.map(c => c.pop);
               const dataMin = populations.length > 0 ? Math.min(...populations) : 0;
               const dataMax = populations.length > 0 ? Math.max(...populations) : Infinity;
-    
-              // console.log('Top 20 biggest cities by population in bbox:', top20);
     
               return from([
                 setCitiesInBBoxSuccess(top20),
