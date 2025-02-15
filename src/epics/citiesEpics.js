@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, switchMap, mergeMap, catchError, withLatestFrom } from 'rxjs/operators';
 import { from, of } from 'rxjs';
 import {
   requestCitiesInBBox,
@@ -18,8 +18,9 @@ const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 export const citiesEpic = (action$, state$) =>
   action$.pipe(
     ofType(requestCitiesInBBox.type, applyFilters.type),
+    debounceTime(200),
     withLatestFrom(state$),
-    mergeMap(([action, state]) => {
+    switchMap(([action, state]) => {
       if (action.type === requestCitiesInBBox.type) {
         const bboxStr = action.payload; // "south,west,north,east" as string
 
@@ -37,13 +38,13 @@ export const citiesEpic = (action$, state$) =>
             body: query,
           })
         ).pipe(
-          mergeMap((response) => {
+          switchMap((response) => {
             if (!response.ok) {
               throw new Error(`Overpass API error: ${response.status}`);
             }
             return response.json();
           }),
-          mergeMap((jsonData) => {
+          switchMap((jsonData) => {
               const elements = jsonData.elements || [];
     
               const withPopulation = elements.map((el) => {

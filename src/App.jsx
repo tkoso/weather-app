@@ -18,9 +18,9 @@ function App() {
   const dispatch = useDispatch();
   const { loading: locationLoading, error } = useSelector((state) => state.location);
   
-  const { loadingCount: citiesLoading } = useSelector((state) => state.cities);
+  const { loading: citiesLoading } = useSelector((state) => state.cities);
 
-  const isLoading = locationLoading || (citiesLoading > 0);
+  const isLoading = locationLoading || citiesLoading;
 
   React.useEffect(() => { // it runs once when the component mounts so that user's centered in the beginning
     dispatch(requestUserLocation());
