@@ -4,6 +4,10 @@ Path to the styled component from the task statement: `src/components/MyStyledBu
 
 This project displays a React Leaflet map and dynamically shows biggest cities visible to the user (via OverpassAPI) on the map and fetches weather data for each city using WeatherAPI.
 
+![image](https://github.com/user-attachments/assets/9b907667-3acb-4ae7-be19-6ecad69e7635)
+![Screenshot from 2025-02-15 20-02-15](https://github.com/user-attachments/assets/6eef702e-fde8-4c6a-afc8-13a249a919fd)
+![Screenshot from 2025-02-15 19-58-20](https://github.com/user-attachments/assets/7e657b3f-c3e5-4cb3-8ec1-ec33c8938f88)
+
 ## Prerequisites
 1. Node.js
 2. npm
@@ -29,4 +33,6 @@ After installing dependencies and setting API key run this command to boot the a
 ```
 npm run dev
 ```
+
+
 
