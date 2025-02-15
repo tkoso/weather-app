@@ -6,7 +6,7 @@ This project displays a React Leaflet map and dynamically shows biggest cities v
 
 ![image](https://github.com/user-attachments/assets/9b907667-3acb-4ae7-be19-6ecad69e7635)
 ![Screenshot from 2025-02-15 20-02-15](https://github.com/user-attachments/assets/6eef702e-fde8-4c6a-afc8-13a249a919fd)
-![Screenshot from 2025-02-15 19-58-20](https://github.com/user-attachments/assets/7e657b3f-c3e5-4cb3-8ec1-ec33c8938f88)
+![image](https://github.com/user-attachments/assets/d508f0c3-c05b-4047-8367-aff923212103)
 
 ## Prerequisites
 1. Node.js
