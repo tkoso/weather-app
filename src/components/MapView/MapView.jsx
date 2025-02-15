@@ -24,9 +24,9 @@ const ControlContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 4px;
+  background: ${({ theme }) => theme.background};
+  padding: 30px;
+  border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   
   * {
