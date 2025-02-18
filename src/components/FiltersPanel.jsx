@@ -33,10 +33,23 @@ const SliderLabels = styled.div`
   font-size: 0.85rem;
   color: ${({ theme }) => theme.textSecondary};
 
-  span {
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .range-display {
     background: ${({ theme }) => theme.backgroundSecondary};
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .available-range {
+    color: ${({ theme }) => theme.textTertiary};
+    font-size: 0.75rem;
   }
 `;
 
@@ -107,7 +120,6 @@ export default function FiltersPanel() {
                 value={[minPopulation, maxPopulation]}
                 onChange={onRangeChange}
                 step={1000}
-                /* TODO: think about swapping deprecated attribute */
                 onBeforeChange={() => {
                   if (map && map.dragging) {
                     map.dragging.disable();
@@ -120,9 +132,14 @@ export default function FiltersPanel() {
                 }}
               />
               <SliderLabels>
-                <span>Min: {minPopulation.toLocaleString()}</span>
-                <br />
-                <span>Max: {maxPopulation.toLocaleString()}</span>
+                <div>
+                  <span className="range-display">
+                    Selected: {minPopulation.toLocaleString()} - {maxPopulation.toLocaleString()}
+                  </span>
+                  <span className="available-range">
+                    Available: {dataMinPopulation.toLocaleString()} - {dataMaxPopulation.toLocaleString()}
+                  </span>
+                </div>
               </SliderLabels>
             </label>
           </SliderContainer>

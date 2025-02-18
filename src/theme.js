@@ -5,7 +5,8 @@ export const lightTheme = {
     buttonBg: '#007bff',
     buttonHover: '#0056b3',
     sliderTrack: '#e0e0e0',
-    sliderHandle: '#007bff'
+    sliderHandle: '#007bff',
+    textTertiary: '#666666'
   };
   
   export const darkTheme = {
@@ -15,5 +16,6 @@ export const lightTheme = {
     buttonBg: '#4a4a4a',
     buttonHover: '#2d2d2d',
     sliderTrack: '#454545',
-    sliderHandle: '#888888'
+    sliderHandle: '#888888',
+    textTertiary: '#888888'
   };
