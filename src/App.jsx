@@ -4,6 +4,7 @@ import { requestUserLocation, incrementRecenterTrigger } from './slices/location
 import MapView from './components/MapView/MapView';
 import styled from 'styled-components';
 import Loader from './components/Loader';
+import FilteredCitiesInfo from './components/FilteredCitiesInfo'
 
 const AppContainer = styled.div`
   text-align: center;
@@ -32,6 +33,7 @@ function App() {
 
       <MapView />
       {isLoading && <Loader />}
+      <FilteredCitiesInfo />
 
 
       {locationLoading && <p>Loading location...</p>}

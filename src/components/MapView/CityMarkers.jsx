@@ -88,6 +88,7 @@ export default function CityMarkers() {
         const niceness = classifyWeather(temp_c, condText);
         const iconUrl = wData?.icon || null;
         const markerIcon = createMarkerIcon(niceness, iconUrl);
+        const minutesOld = wData && wData.timestamp ? Math.floor((Date.now() - wData.timestamp) / 60000) : null;
 
         return (
           <Marker 
@@ -102,6 +103,11 @@ export default function CityMarkers() {
                 <span>Condition: {condText}</span>
                 <span>Weather is <em>{niceness}</em></span>
                 {iconUrl && <WeatherIcon src={iconUrl} alt="weather icon" />}
+                {minutesOld !== null && (
+                  <span style={{ fontSize: '12px', color: 'gray' }}>
+                    Updated {minutesOld} minute{minutesOld === 1 ? '' : 's'} ago
+                  </span>
+                )}
               </WeatherPopup>
             </Popup>
           </Marker>
