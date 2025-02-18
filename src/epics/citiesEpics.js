@@ -5,10 +5,8 @@ import {
   requestCitiesInBBox,
   setCitiesInBBoxSuccess,
   setCitiesInBBoxError,
-  applyCityFilters
 } from '../slices/citiesSlice';
 import {
-  applyFilters,
   setDataPopulationRange,
   setPopulationRange
 } from '../slices/filtersSlice';
@@ -17,7 +15,7 @@ const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 
 export const citiesEpic = (action$, state$) =>
   action$.pipe(
-    ofType(requestCitiesInBBox.type, applyFilters.type),
+    ofType(requestCitiesInBBox.type),
     debounceTime(2000), // debounce the api queries so that we don't overload it and only the latest is considered
     withLatestFrom(state$),
     switchMap(([action, state]) => {
@@ -68,12 +66,33 @@ export const citiesEpic = (action$, state$) =>
               const populations = top20.map(c => c.pop);
               const dataMin = populations.length > 0 ? Math.min(...populations) : 0;
               const dataMax = populations.length > 0 ? Math.max(...populations) : Infinity;
-    
-              return from([
+
+              const {
+                dataMinPopulation: cachedMin,
+                dataMaxPopulation: cachedMax,
+                minPopulation,
+                maxPopulation,
+              } = state.filters;
+
+              // only update if new values widen the range.
+              const newDataMin = (cachedMax === Infinity && cachedMin === 0)
+                ? dataMin
+                : Math.min(cachedMin, dataMin);
+              const newDataMax = (cachedMax === Infinity && cachedMin === 0)
+                ? dataMax
+                : Math.max(cachedMax, dataMax);
+
+              const actionsToDispatch = [
                 setCitiesInBBoxSuccess(top20),
-                setDataPopulationRange({ min: dataMin, max: dataMax }),
-                setPopulationRange({ min: dataMin, max: dataMax })
-              ]);
+                setDataPopulationRange({ min: newDataMin, max: newDataMax }),
+              ];
+  
+              // if active filters are still at their defaults, update them
+              if (minPopulation === 0 && maxPopulation === Infinity) {
+                actionsToDispatch.push(setPopulationRange({ min: dataMin, max: dataMax }));
+              }
+  
+              return from(actionsToDispatch);
             }),
           catchError((err) => {
             console.error('Error fetching cities:', err);
@@ -82,24 +101,6 @@ export const citiesEpic = (action$, state$) =>
         );
       }
 
-      if (action.type === applyFilters.type) {
-        const currentCities = state.cities.allCities;
-        return of(
-          applyCityFilters(filterCities(currentCities, state.filters))
-        )
-      }
-
       return of(); // fallback
     })
   );
-
-
-// helper function for filtering
-const filterCities = (cities, filters) => {
-  const { searchTerm, minPopulation, maxPopulation } = filters;
-  return cities.filter(city => {
-    const nameMatch = (city.tags?.name || '').toLowerCase().includes(searchTerm.toLowerCase());
-    const popMatch = city.pop >= minPopulation && city.pop <= maxPopulation;
-    return nameMatch && popMatch;
-  });
-};

@@ -80,10 +80,11 @@ export default function FiltersPanel() {
       <MyStyledButton onClick={() => setExpanded(!expanded)}>
         {expanded ? '▲ Filters' : '▼ Filters'}
       </MyStyledButton>
-      {/* name search input */}
+      
       {expanded && (
         <>
           <FilterGroup>
+            {/* name search input */}
             <FilterLabel>
               Search by name:
               <input

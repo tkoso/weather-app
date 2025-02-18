@@ -4,6 +4,7 @@ import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import styled from 'styled-components';
 import 'leaflet/dist/leaflet.css';
+import { getFilteredCities } from '../../selectors/citiesSelectors';
 
 function createMarkerIcon(niceness, iconUrl) {
   const emoji = niceness.split(' ').at(-1);
@@ -72,7 +73,7 @@ function classifyWeather(temp_c, conditionText) {
 }
 
 export default function CityMarkers() {
-  const { filteredCities } = useSelector((state) => state.cities);
+  const filteredCities = useSelector(getFilteredCities);
   const { weatherById } = useSelector((state) => state.weather);
 
   return (
