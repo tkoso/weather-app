@@ -73,7 +73,7 @@ export default function MapView() {
     const east = longitude + halfMapSpanLng;
 
     const bboxStr = `${south},${west},${north},${east}`;
-    console.log(bboxStr);
+
     dispatch(setBoundingBox(bboxStr));
     dispatch(requestCitiesInBBox(bboxStr));
   }, [dispatch, latitude, longitude, zoom]);
