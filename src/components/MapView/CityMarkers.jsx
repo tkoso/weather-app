@@ -5,6 +5,7 @@ import L from 'leaflet';
 import styled from 'styled-components';
 import 'leaflet/dist/leaflet.css';
 import { getFilteredCities } from '../../selectors/citiesSelectors';
+import { getCitiesWithWeatherClassification } from '../../selectors/weatherSelectors';
 
 function createMarkerIcon(niceness, iconUrl) {
   const emoji = niceness.split(' ').at(-1);
@@ -64,28 +65,20 @@ const WeatherIcon = styled.img`
   height: 40px;
 `;
 
-function classifyWeather(temp_c, conditionText) {
-  const noRain = !conditionText?.toLowerCase().includes('rain');
-  const tempIsGood = temp_c >= 18 && temp_c <= 25;
-  if (noRain && tempIsGood) return 'nice 😊';
-  if (noRain || tempIsGood) return 'passable 🤨';
-  return 'not nice 😢';
-}
+
 
 export default function CityMarkers() {
-  const filteredCities = useSelector(getFilteredCities);
-  const { weatherById } = useSelector((state) => state.weather);
+  const cities = useSelector(getCitiesWithWeatherClassification);
 
   return (
     <>
-      {filteredCities.map((city) => {
+      {cities.map((city) => {
         const cityName = city.tags?.name || 'Unnamed City';
         const cityId = city.id;
-        const wData = weatherById[cityId];
+        const wData = city.weather;
         const tempText = wData?.temp_c !== undefined ? `${wData.temp_c}°C` : '...';
         const condText = wData?.condition || 'no data';
-        const temp_c = wData?.temp_c ?? '?';
-        const niceness = classifyWeather(temp_c, condText);
+        const niceness = wData?.niceness || 'unkown';
         const iconUrl = wData?.icon || null;
         const markerIcon = createMarkerIcon(niceness, iconUrl);
         const minutesOld = wData && wData.timestamp ? Math.floor((Date.now() - wData.timestamp) / 60000) : null;
