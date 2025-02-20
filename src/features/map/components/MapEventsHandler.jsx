@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useMapEvents } from 'react-leaflet';
-import { requestCitiesInBBox, setBoundingBox } from '../../slices/citiesSlice';
+import { requestCitiesInBBox, setBoundingBox } from '../../cities/slices/citiesSlice';
 
 export default function MapEventsHandler() {
   const dispatch = useDispatch();

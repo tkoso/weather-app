@@ -1,46 +1,20 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import RecenterMap from './RecenterMap';
 import MapEventsHandler from './MapEventsHandler';
 import CityMarkers from './CityMarkers';
 import 'leaflet/dist/leaflet.css';
-import styled from 'styled-components';
-import MyStyledButton from '../MyStyledButton';
-import FiltersPanel from '../FiltersPanel';
-import { toggleTheme } from '../../slices/themeSlice';
-import ThemeToggleButton from '../ThemeToggleButton';
-import { requestUserLocation, incrementRecenterTrigger } from '../../slices/locationSlice';
+import MyStyledButton from '../../location/components/MyStyledButton';
+import FiltersPanel from '../../filters/components/FiltersPanel';
+import { toggleTheme } from '../../theme/slices/themeSlice';
+import ThemeToggleButton from '../../theme/components/ThemeToggleButton';
+import { requestUserLocation, incrementRecenterTrigger } from '../../location/slices/locationSlice';
 import { useDispatch } from 'react-redux';
-import { setBoundingBox, requestCitiesInBBox } from '../../slices/citiesSlice';
+import { setBoundingBox, requestCitiesInBBox } from '../../cities/slices/citiesSlice';
 
-
-
-const ControlContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: ${({ theme }) => theme.background};
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  
-  * {
-    pointer-events: all !important;
-    touch-action: manipulation !important;
-  }
-`;
-
-const MapContainerStyled = styled(MapContainer)`
-  /* Disable touch actions on map when interacting with controls */
-  .leaflet-container {
-    touch-action: none;
-  }
-`;
+import ControlContainer from './ControlContainer';
+import MapContainerStyled from './MapContainerStyled';
 
 export default function MapView() {
   const dispatch = useDispatch();

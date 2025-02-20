@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getFilteredCities } from './citiesSelectors';
+import { getFilteredCities } from '../../cities/selectors/citiesSelectors';
 
 function classifyWeather(temp_c, conditionText) {
   const noRain = !conditionText?.toLowerCase().includes('rain');

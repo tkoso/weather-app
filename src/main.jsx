@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from './store/store';
-import App from './App';
+import store from './app/store/store';
+import App from './app/App';
 import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
-import { lightTheme, darkTheme } from './theme';
+import { lightTheme, darkTheme } from './features/theme/theme';
 
 const Root = () => {
   const theme = useSelector(state => state.theme.mode);

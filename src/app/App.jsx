@@ -1,18 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { requestUserLocation, incrementRecenterTrigger } from './slices/locationSlice';
-import MapView from './components/MapView/MapView';
-import styled from 'styled-components';
+import { requestUserLocation, incrementRecenterTrigger } from '../features/location/slices/locationSlice';
+import MapView from '../features/map/components/MapView';
 import Loader from './components/Loader';
-import FilteredCitiesInfo from './components/FilteredCitiesInfo'
+import './components/AppContainer';
+import FilteredCitiesInfo from '../features/filters/components/FilteredCitiesInfo'
+import AppContainer from './components/AppContainer';
 
-const AppContainer = styled.div`
-  text-align: center;
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-`;
+
 
 function App() {
   const dispatch = useDispatch();

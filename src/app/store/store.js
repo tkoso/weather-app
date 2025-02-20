@@ -2,11 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { createEpicMiddleware } from 'redux-observable';
 import rootEpic from './rootEpic';
 
-import locationReducer from '../slices/locationSlice';
-import citiesReducer from '../slices/citiesSlice';
-import weatherReducer from '../slices/weatherSlice';
-import filtersReducer from '../slices/filtersSlice';
-import themeReducer from '../slices/themeSlice';
+import locationReducer from '../../features/location/slices/locationSlice';
+import citiesReducer from '../../features/cities/slices/citiesSlice';
+import weatherReducer from '../../features/weather/slices/weatherSlice';
+import filtersReducer from '../../features/filters/slices/filtersSlice';
+import themeReducer from '../../features/theme/slices/themeSlice';
 
 const epicMiddleware = createEpicMiddleware();
 

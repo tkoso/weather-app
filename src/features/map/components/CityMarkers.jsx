@@ -2,10 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import styled from 'styled-components';
 import 'leaflet/dist/leaflet.css';
-import { getFilteredCities } from '../../selectors/citiesSelectors';
-import { getCitiesWithWeatherClassification } from '../../selectors/weatherSelectors';
+import { getCitiesWithWeatherClassification } from '../../weather/selectors/weatherSelectors';
+
+import WeatherPopup from './WeatherPopup';
+import WeatherIcon from './WeatherIcon';
 
 function createMarkerIcon(niceness, iconUrl) {
   const emoji = niceness.split(' ').at(-1);
@@ -48,24 +49,6 @@ function getBorderColor(niceness) {
     default: return '#F44336';
   }
 }
-
-const WeatherPopup = styled.div`
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-`;
-
-const WeatherIcon = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-
 
 export default function CityMarkers() {
   const cities = useSelector(getCitiesWithWeatherClassification);

@@ -6,10 +6,10 @@ import {
   setWeatherForCitiesSuccess,
   setWeatherForCitiesError,
 } from '../slices/weatherSlice';
-import { setCitiesInBBoxSuccess } from '../slices/citiesSlice';
+import { setCitiesInBBoxSuccess } from '../../cities/slices/citiesSlice';
 
 const API_BASE = 'https://api.weatherapi.com/v1/current.json';
-const CACHE_DURATION = 5 * 60 * 1000; // if cached data is older than 5 minutes, fetch new data
+const CACHE_DURATION = 60 * 60 * 1000; // if cached data is older than 60 minutes, fetch new data
 
 export const weatherEpic = (action$, state$) =>
   action$.pipe(
@@ -18,7 +18,6 @@ export const weatherEpic = (action$, state$) =>
       const cities = action.payload; // action.payload = the array of top 20 biggest cities from Overpass
 
       return of(requestWeatherForCities()).pipe(
-        // Now we are checking for the API key in a declarative way
         switchMap(() => {
           const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
           return of(API_KEY).pipe(
